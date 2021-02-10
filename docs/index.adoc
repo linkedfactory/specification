@@ -1,0 +1,22 @@
+= LinkedFactory: Industrial Knowledge Graph
+
+== Getting Started
+
+=== What is LinkedFactory?
+
+LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.
+
+=== Features
+LinkedFactory has the following features:
+
+* *RDF graph store* based on the https://platform.enilink.net/[eniLINK Linked Data Platform]
+* *API* for storing and retrieving time series data
+* *SPARQL interface* for queries against RDF and time series data
+
+== RDF graph store
+
+== APIs for time series data
+
+== SPARQL interface
+
+== Grafana connector
