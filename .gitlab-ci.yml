@@ -10,3 +10,6 @@ build:
   stage: build
   script:
     - mvn
+  artifacts:
+    paths:
+      - target/*
