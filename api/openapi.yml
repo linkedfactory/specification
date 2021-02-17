@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: LinkedFactory
+  description: 'The Linked Factory is a tool to store and retrieve time-series data from a semantic context'
+  version: 0.0.1
+servers:
+  - url: http://evolopro.linkedfactory.de/
+tags:
+  - name: end user
+paths: 
+  /linkedfactory/values:
+    get:
+      tags: 
+        - end user
+      summary: Interact with resources from database
+      parameters:
+        - in: query
+          name: item
+          schema:
+            type: string
+          description: Resource that shall be retrieved
+          required: true
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limits number of returned data points
+        - in: query
+          name: from
+          schema:
+            type: integer
+          description: unix-timestamp (ms) for start of query window
+        - in: query
+          name: to
+          schema:
+            type: integer
+          description: unix-timestamp (ms) for end of query window
+        - in: query
+          name: op
+          schema:
+            type: string
+        - in: query
+          name: interval
+          schema:
+            type: integer
+      operationId: getValues
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {
+  "http://153.96.234.143/linkedfactory":{
+  }
+}
+
+  /linkedfactory/{rel_path}/values:
+    post:
+      tags: 
+        - end user
+      summary: Inserts data into LinkedFactory
+      parameters:
+        - in: path
+          name: rel_path
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        description: Payload
+        content:
+          application/json:
+            schema:
+              type: string
+          application/influxdb-line:
+            schema:
+              type: string
+      responses:
+        '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+  
+  /sparql:
+    get:
+      tags:
+        - end user
+      summary: executes sparql query
+      parameters:
+        - in: query
+          name: model
+          schema:
+            type: string
+            default: http://linkedfactory.iwu.fraunhofer.de/data/
+          description: Model within the LF that shall be queried
+          required: true
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: Encoded sparql-query
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      
+  /properties:
+    get:
+      tags:
+        - end user
+      summary: returns all properties of a given resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
