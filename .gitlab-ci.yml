@@ -10,6 +10,17 @@ build:
   stage: build
   script:
     - mvn
+
+pages:
+  stage: deploy
+  script:
+    - mv target/generated-docs public
   artifacts:
     paths:
-      - target/*
+      - public
+  only:
+    - master
+
+
+
+
