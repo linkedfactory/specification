@@ -10,6 +10,7 @@ pages:
   script:
     - mvn
     - mv target/generated-docs public
+    - cp -R api public/
   artifacts:
     paths:
       - public
