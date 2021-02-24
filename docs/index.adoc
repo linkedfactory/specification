@@ -10,7 +10,7 @@ LinkedFactory is a set of APIs for combining RDF and time series data to create 
 LinkedFactory has the following features:
 
 * *RDF graph store* based on the https://platform.enilink.net/[eniLINK Linked Data Platform]
-* *API* for storing and retrieving time series data
+* *API* for storing and https://dipro.pages.fraunhofer.de/linkedfactory/linkedfactory-docs/api/[retrieving time series data]
 * *SPARQL interface* for queries against RDF and time series data
 
 == RDF graph store
