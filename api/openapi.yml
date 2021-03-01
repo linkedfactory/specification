@@ -52,18 +52,35 @@ paths:
               schema:
                 type: object
                 example: {
-  "http://153.96.234.143/linkedfactory":{
-  }
+    "http://153.96.234.143/linkedfactory/evolopro/IR6640-Robot/Axes/A2/ParameterSet/ActualPosition": {
+        "value": [
+            {
+                "time": 1600764274637,
+                "value": 74.9
+            },
+            {
+                "time": 1600764274135,
+                "value": 77.4
+            },
+            {
+                "time": 1600764273607,
+                "value": 80.9
+            },
+            {
+                "time": 1600764273089,
+                "value": 81.3
+            }
+        ]
+    }
 }
 
-  /linkedfactory/{rel_path}/values:
     post:
       tags: 
         - end user
       summary: Inserts data into LinkedFactory
       parameters:
-        - in: path
-          name: rel_path
+        - in: query
+          name: model
           required: true
           schema:
             type: string
@@ -74,9 +91,16 @@ paths:
           application/json:
             schema:
               type: string
+              example: 
+                {
+    "evolopro/umati/BasicRobot/ParameterSet/SpeedOverride":
+    {"value":[{"value":0.0,"time":1614259546690}]}
+    
+}
           application/influxdb-line:
             schema:
               type: string
+
       responses:
         '200':
             description: OK
