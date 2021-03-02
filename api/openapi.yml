@@ -69,11 +69,7 @@ paths:
             {
                 "time": 1600764273089,
                 "value": 81.3
-            }
-        ]
-    }
-}
-
+            }        ]    }}
     post:
       tags: 
         - end user
@@ -94,9 +90,7 @@ paths:
               example: 
                 {
     "evolopro/umati/BasicRobot/ParameterSet/SpeedOverride":
-    {"value":[{"value":0.0,"time":1614259546690}]}
-    
-}
+    {"value":[{"value":0.0,"time":1614259546690}]}}
           application/influxdb-line:
             schema:
               type: string
@@ -141,6 +135,32 @@ paths:
       tags:
         - end user
       summary: returns all properties of a given resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /models:
+    post:
+      summary: Allows to make changes to the semantic structure of the model
+      tags:
+        - end user
+      parameters:
+        - in: query
+          name: model
+          schema:
+            type: string
+            default: http://linkedfactory.iwu.fraunhofer.de/data/
+          description: Model within the LF that shall be manipulated
+          required: true
+      requestBody:
+        description: Serialized rdf-objects
+        required: true
+        content:
+          application/x-turtle
       responses:
         '200':
           description: OK
