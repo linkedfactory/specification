@@ -160,7 +160,9 @@ paths:
         description: Serialized rdf-objects
         required: true
         content:
-          application/x-turtle
+          application/x-turtle:
+            schema:
+              type: object
       responses:
         '200':
           description: OK
