@@ -135,6 +135,14 @@ paths:
       tags:
         - end user
       summary: returns all properties of a given resource
+      parameters:
+        - in: query
+          name: item
+          schema:
+            type: string
+          description: Property that shall be evaluated
+          required: true
+
       responses:
         '200':
           description: OK
