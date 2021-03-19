@@ -196,8 +196,8 @@ paths:
           content:
             application/x-turtle:
               schema:
-                type: object
-                example: <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#comment> "dengednden"@en .
-<http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
-<http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
-
+                type: text/plain
+                example: 
+                  - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#comment> "dengednden"@en .
+                  - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
+                  - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
