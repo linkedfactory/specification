@@ -131,7 +131,7 @@ paths:
     get:
       tags:
         - end user
-      summary: returns all properties of a given resource
+      summary: returns what is in the RDF-Graph
       parameters:
         - in: query
           name: item
