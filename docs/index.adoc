@@ -15,8 +15,103 @@ LinkedFactory has the following features:
 
 == RDF graph store
 
+The endpoint `/models` provides an interface according to the https://www.w3.org/TR/sparql11-http-rdf-update/[SPARQL 1.1 Graph Store HTTP Protocol]. 
+
+IMPORTANT: The only difference is that the platform uses the parameter `model` instead of `graph` to specify the target named graph.
+
 == APIs for time series data
+
+The main entry point for working with time series data is `/linkedfactory/values`.
+
+=== JSON-encoded time series data
+
+LinkedFactory uses a nested JSON-LD compatible format for time series data. The following document shows an example for the two resources *resource1* and *resource2*:
+
+[source,json]
+----
+{
+    "http://example.org/resource1": {
+       "http://example.org/properties/p1": [
+           { "value": 20.3, "time": 1619424246100 }, 
+           { "value": 20.4, "time": 1619424246120 }
+       ],
+       "http://example.org/properties/p2": [
+           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
+       ]
+    }, 
+    "http://example.org/resource2": {
+       "http://example.org/properties/speed": [
+           { "value": 120.3, "time": 1619424246100 }
+       ]
+    }, 
+}
+----
+
+As can be seen the principal structure of such a JSON document is `{ "Subject" : { "Property" : [... values ... ], "Property 2": [... values ...], ... }}`.
+
+=== Insert new data
+
+Data can be ingested by using *POST* requests with content-type `application/json` to the endpoint `/linkedfactory/values`.
+
+=== Query data
+
+Data can be queried by issueing a *GET* request to the endpoint `/linkedfactory/values` with the required parameter `item` which specifies the subject of time series data.
+
+An example would be *GET* `/linkedfactory/values?item=http://example.org/resource1` that returns a JSON document like:
+
+[source,json]
+----
+{
+    "http://example.org/resource1": {
+       "http://example.org/properties/p1": [
+           { "value": 20.4, "time": 1619424246120 },
+           { "value": 20.3, "time": 1619424246100 }
+       ],
+       "http://example.org/properties/p2": [
+           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
+       ]
+    }
+}
+----
+
+NOTE: The returned data is *sorted descending by time*. That means a GET request with *limit=1* always returns the latest value. 
+
+.Parameters for a GET request
+[cols="1,4,2"]
+|===
+|Parameter | Description | Example 
+
+| *item* (required) | The subject of the time series data. | `http://example.org/resource1`
+
+| *limit* | Number of values for each property. | 5
+
+| *to* | The last timestap in milliseconds (inclusive) | 1619424246120
+
+| *from* | The first timestap in milliseconds (inclusive) | 1619424246100
+
+| *op* | Aggregation operator for the data values. One of: min, max, avg, sum | avg
+
+| *interval* | Used in conjunction with *op* and specifies the grouping interval for the aggregation operation. | 1000
+|===
 
 == SPARQL interface
 
+The endpoint `/sparql` provides an interface according to https://www.w3.org/TR/sparql11-overview/[SPARQL 1.1].
+
+NOTE: The parameter *model* must be used to specify  the target model for the query. The *default model* for LinkedFactory data is `http://linkedfactory.iwu.fraunhofer.de/data/`.
+
+
+[subs=+quotes]
+[source,sparql]
+----
+select ?property ?value ?time {
+  service *<kvin:>* { 
+    <http://example.org/resource1> 
+       ?property [ *<kvin:value>* ?value; *<kvin:time>* ?time ; <kvin:limit> 1 ] . 
+  }
+} order by ?time
+----
+
 == Grafana connector
+
+TBD
