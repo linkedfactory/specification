@@ -35,4 +35,4 @@ jobs:
      
     # Upload to gh-pages
     - name: Deploy to gh-pages branch
-      run: ./deploy.sh "${{ secrets.GITHUB_TOKEN }}"
+      run: bash deploy.sh "${{ secrets.GITHUB_TOKEN }}"
