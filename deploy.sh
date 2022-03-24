@@ -1,7 +1,7 @@
 #!/bin/bash
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-target=$dir/target/generated-docs
+target=$dir/build/site
 deploy_branch=gh-pages
 if [ "$1" ]; then token="$1"; fi
 remote_url="https://$GITHUB_ACTOR:$token@github.com/$GITHUB_REPOSITORY"

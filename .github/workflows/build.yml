@@ -21,7 +21,6 @@ jobs:
     # Checks-out the repository under $GITHUB_WORKSPACE
     - uses: actions/checkout@v2
         
-    # Sets up JDK
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
@@ -29,14 +28,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
-    # Runs the Maven build
-    - name: Build with Maven
-      run: mvn --file pom.xml
+    - name: "Generate site using antora site action"
+      uses: kameshsampath/antora-site-action@master
+      with:
+        antora_playbook: antora-playbook.yml
       
-    # Copy API spec
     - name: Copy API spec
-      run: cp -R api target/generated-docs/
+      run: cp -R api build/site/
      
-    # Upload to gh-pages
     - name: Deploy to gh-pages branch
       run: bash deploy.sh "${{ secrets.GITHUB_TOKEN }}"
