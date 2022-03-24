@@ -4,7 +4,7 @@ info:
   description: 'The Linked Factory is a tool to store and retrieve time-series data from a semantic context'
   version: 0.0.1
 servers:
-  - url: https://evolopro.linkedfactory.de/
+  - url: https://linkedfactory.github.io/
 tags:
   - name: end user
 paths: 
