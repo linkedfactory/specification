@@ -1,0 +1,203 @@
+openapi: 3.0.1
+info:
+  title: LinkedFactory
+  description: 'The Linked Factory is a tool to store and retrieve time-series data from a semantic context'
+  version: 0.0.1
+servers:
+  - url: https://linkedfactory.github.io/
+tags:
+  - name: end user
+paths: 
+  /linkedfactory/values:
+    get:
+      tags: 
+        - end user
+      summary: Interact with resources from database
+      parameters:
+        - in: query
+          name: item
+          schema:
+            type: string
+          description: Resource that shall be retrieved
+          required: true
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limits number of returned data points
+        - in: query
+          name: from
+          schema:
+            type: integer
+          description: unix-timestamp (ms) for start of query window
+        - in: query
+          name: to
+          schema:
+            type: integer
+          description: unix-timestamp (ms) for end of query window
+        - in: query
+          name: op
+          schema:
+            type: string
+        - in: query
+          name: interval
+          schema:
+            type: integer
+      operationId: getValues
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {
+    "http://153.96.234.143/linkedfactory/evolopro/IR6640-Robot/Axes/A2/ParameterSet/ActualPosition": {
+        "value": [
+            {
+                "time": 1600764274637,
+                "value": 74.9
+            },
+            {
+                "time": 1600764274135,
+                "value": 77.4
+            },
+            {
+                "time": 1600764273607,
+                "value": 80.9
+            },
+            {
+                "time": 1600764273089,
+                "value": 81.3
+            }        ]    }}
+    post:
+      tags: 
+        - end user
+      summary: Inserts data into LinkedFactory
+      parameters:
+        - in: query
+          name: model
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        description: Payload
+        content:
+          application/json:
+            schema:
+              type: string
+              example: 
+                {
+    "evolopro/umati/BasicRobot/ParameterSet/SpeedOverride":
+    {"value":[{"value":0.0,"time":1614259546690}]}}
+          application/influxdb-line:
+            schema:
+              type: string
+
+      responses:
+        '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+  
+  /sparql:
+    get:
+      tags:
+        - end user
+      summary: executes sparql query
+      parameters:
+        - in: query
+          name: model
+          description: Model within the LF that shall be queried
+          required: true
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: Encoded sparql-query
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      
+  /properties:
+    get:
+      tags:
+        - end user
+      summary: returns what is in the RDF-Graph
+      parameters:
+        - in: query
+          name: item
+          schema:
+            type: string
+          description: Property that shall be evaluated
+          required: true
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /models:
+    post:
+      summary: Allows to make changes to the semantic structure of the model
+      tags:
+        - end user
+      parameters:
+        - in: query
+          name: model
+          schema:
+            type: string
+            default: http%3A%2F%2Flocalhost%3A10080%2Flinkedfactory
+          description: Model within the LF that shall be manipulated
+          required: true
+      requestBody:
+        description: Serialized rdf-objects
+        required: true
+        content:
+          application/x-turtle:
+            schema:
+              type: object
+              example: <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://localhost:10080/linkedfactory/demofactory/machine1>.
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+
+    get:
+      tags:
+        - end user
+      summary: returns direct references from given item
+      parameters:
+        - in: query
+          name: item
+          schema:
+            type: string
+          description: Encoded uri for resource of interest
+          required: true
+        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/x-turtle:
+              schema:
+                type: text/plain
+                example: 
+                  - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#comment> "dengednden"@en .
+                  - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
+                  - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
