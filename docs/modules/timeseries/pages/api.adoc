@@ -1,0 +1,48 @@
+= APIs for time series data
+
+The main entry point for working with time series data is `/linkedfactory/values`.
+
+== Insert data
+
+Data can be ingested by using *POST* requests with content-type `application/json` to the endpoint `/linkedfactory/values`.
+
+== Query data
+
+Data can be queried by issueing a *GET* request to the endpoint `/linkedfactory/values` with the required parameter `item` which specifies the subject of time series data.
+
+An example would be *GET* `/linkedfactory/values?item=http://example.org/resource1` that returns a JSON document like:
+
+[source,json]
+----
+{
+    "http://example.org/resource1": {
+       "http://example.org/properties/p1": [
+           { "value": 20.4, "time": 1619424246120 },
+           { "value": 20.3, "time": 1619424246100 }
+       ],
+       "http://example.org/properties/p2": [
+           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
+       ]
+    }
+}
+----
+
+NOTE: The returned data is *sorted descending by time*. That means a GET request with *limit=1* always returns the latest value. 
+
+.Parameters for a GET request
+[cols="1,4,2"]
+|===
+|Parameter | Description | Example 
+
+| *item* (required) | The subject of the time series data. | `http://example.org/resource1`
+
+| *limit* | Number of values for each property. | 5
+
+| *to* | The last timestap in milliseconds (inclusive) | 1619424246120
+
+| *from* | The first timestap in milliseconds (inclusive) | 1619424246100
+
+| *op* | Aggregation operator for the data values. One of: min, max, avg, sum | avg
+
+| *interval* | Used in conjunction with *op* and specifies the grouping interval for the aggregation operation. | 1000
+|===

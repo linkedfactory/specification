@@ -1,98 +1,24 @@
 = LinkedFactory: Industrial Knowledge Graph
 
-== Getting Started
-
-=== What is LinkedFactory?
+== What is LinkedFactory?
 
 LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.
 
-=== Features
-LinkedFactory has the following features:
+== Components
 
-* *RDF graph store* based on the https://platform.enilink.net/[eniLINK Linked Data Platform]
-* *API* for storing and https://dipro.pages.fraunhofer.de/linkedfactory/linkedfactory-docs/api/[retrieving time series data]
-* *SPARQL interface* for queries against RDF and time series data
+LinkedFactory is based on the following standards and components:
 
-== RDF graph store
+* https://www.w3.org/TR/rdf11-concepts/[*RDF*] is used as a flexible format to describe any kind of asset with associated properties and relationships
+  to other assets.
+* http://www.w3.org/TR/sparql11-http-rdf-update/[*Graph Store HTTP Protocol*] is a simple HTTP-based protocol for modifiying the RDF data about assets
+* xref:timeseries:api.adoc[*API*] for storing and retrieving time series data
+* https://www.w3.org/TR/sparql11-query/[*SPARQL interface*] for complex queries against RDF and time series data
+
+== Graph store
 
 The endpoint `/models` provides an interface according to the https://www.w3.org/TR/sparql11-http-rdf-update/[SPARQL 1.1 Graph Store HTTP Protocol]. 
 
 IMPORTANT: The only difference is that the platform uses the parameter `model` instead of `graph` to specify the target named graph.
-
-== APIs for time series data
-
-The main entry point for working with time series data is `/linkedfactory/values`.
-
-=== JSON-encoded time series data
-
-LinkedFactory uses a nested JSON-LD compatible format for time series data. The following document shows an example for the two resources *resource1* and *resource2*:
-
-[source,json]
-----
-{
-    "http://example.org/resource1": {
-       "http://example.org/properties/p1": [
-           { "value": 20.3, "time": 1619424246100 }, 
-           { "value": 20.4, "time": 1619424246120 }
-       ],
-       "http://example.org/properties/p2": [
-           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
-       ]
-    }, 
-    "http://example.org/resource2": {
-       "http://example.org/properties/speed": [
-           { "value": 120.3, "time": 1619424246100 }
-       ]
-    }, 
-}
-----
-
-As can be seen the principal structure of such a JSON document is `{ "Subject" : { "Property" : [... values ... ], "Property 2": [... values ...], ... }}`.
-
-=== Insert new data
-
-Data can be ingested by using *POST* requests with content-type `application/json` to the endpoint `/linkedfactory/values`.
-
-=== Query data
-
-Data can be queried by issueing a *GET* request to the endpoint `/linkedfactory/values` with the required parameter `item` which specifies the subject of time series data.
-
-An example would be *GET* `/linkedfactory/values?item=http://example.org/resource1` that returns a JSON document like:
-
-[source,json]
-----
-{
-    "http://example.org/resource1": {
-       "http://example.org/properties/p1": [
-           { "value": 20.4, "time": 1619424246120 },
-           { "value": 20.3, "time": 1619424246100 }
-       ],
-       "http://example.org/properties/p2": [
-           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
-       ]
-    }
-}
-----
-
-NOTE: The returned data is *sorted descending by time*. That means a GET request with *limit=1* always returns the latest value. 
-
-.Parameters for a GET request
-[cols="1,4,2"]
-|===
-|Parameter | Description | Example 
-
-| *item* (required) | The subject of the time series data. | `http://example.org/resource1`
-
-| *limit* | Number of values for each property. | 5
-
-| *to* | The last timestap in milliseconds (inclusive) | 1619424246120
-
-| *from* | The first timestap in milliseconds (inclusive) | 1619424246100
-
-| *op* | Aggregation operator for the data values. One of: min, max, avg, sum | avg
-
-| *interval* | Used in conjunction with *op* and specifies the grouping interval for the aggregation operation. | 1000
-|===
 
 == SPARQL interface
 
