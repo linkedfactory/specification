@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://linkedfactory.github.io/specifiction/overview/1/index.html</loc>
-<lastmod>2022-03-25T08:58:43.954Z</lastmod>
+<lastmod>2022-03-25T14:14:27.923Z</lastmod>
+</url>
+<url>
+<loc>https://linkedfactory.github.io/specifiction/overview/1/timeseries/api.html</loc>
+<lastmod>2022-03-25T14:14:27.923Z</lastmod>
+</url>
+<url>
+<loc>https://linkedfactory.github.io/specifiction/overview/1/timeseries/json.html</loc>
+<lastmod>2022-03-25T14:14:27.923Z</lastmod>
 </url>
 </urlset>

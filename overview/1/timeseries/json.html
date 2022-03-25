@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>JSON-encoding for time series data :: LinkedFactory specifications</title>
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://linkedfactory.github.io/specifiction">LinkedFactory specifications</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <!--a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div-->
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="overview" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview</span>
+    <span class="version">1-beta.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1-beta.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/linkedfactory/specification/edit/master/docs/modules/timeseries/pages/json.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">JSON-encoding for time series data</h1>
+<div class="paragraph">
+<p>LinkedFactory uses a nested JSON-LD compatible format for time series data. The following document shows an example for the two resources <strong>resource1</strong> and <strong>resource2</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "http://example.org/resource1": {
+       "http://example.org/properties/p1": [
+           { "value": 20.3, "time": 1619424246100 },
+           { "value": 20.4, "time": 1619424246120 }
+       ],
+       "http://example.org/properties/p2": [
+           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
+       ]
+    },
+    "http://example.org/resource2": {
+       "http://example.org/properties/speed": [
+           { "value": 120.3, "time": 1619424246100 }
+       ]
+    },
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As can be seen the principal structure of such a JSON document is <code>{ "Subject" : { "Property" : [&#8230;&#8203; values &#8230;&#8203; ], "Property 2": [&#8230;&#8203; values &#8230;&#8203;], &#8230;&#8203; }}</code>.</p>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>LinkedFactory Industrial Knowledge Graph</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

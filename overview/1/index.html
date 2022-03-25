@@ -85,37 +85,40 @@
 <article class="doc">
 <h1 class="page">LinkedFactory: Industrial Knowledge Graph</h1>
 <div class="sect1">
-<h2 id="_getting_started"><a class="anchor" href="#_getting_started"></a>Getting Started</h2>
+<h2 id="_what_is_linkedfactory"><a class="anchor" href="#_what_is_linkedfactory"></a>What is LinkedFactory?</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_what_is_linkedfactory"><a class="anchor" href="#_what_is_linkedfactory"></a>What is LinkedFactory?</h3>
 <div class="paragraph">
 <p>LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_features"><a class="anchor" href="#_features"></a>Features</h3>
+</div>
+<div class="sect1">
+<h2 id="_components"><a class="anchor" href="#_components"></a>Components</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>LinkedFactory has the following features:</p>
+<p>LinkedFactory is based on the following standards and components:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>RDF graph store</strong> based on the <a href="https://platform.enilink.net/">eniLINK Linked Data Platform</a></p>
+<p><a href="https://www.w3.org/TR/rdf11-concepts/"><strong>RDF</strong></a> is used as a flexible format to describe any kind of asset with associated properties and relationships
+to other assets.</p>
 </li>
 <li>
-<p><strong>API</strong> for storing and <a href="https://dipro.pages.fraunhofer.de/linkedfactory/linkedfactory-docs/api/">retrieving time series data</a></p>
+<p><a href="http://www.w3.org/TR/sparql11-http-rdf-update/"><strong>Graph Store HTTP Protocol</strong></a> is a simple HTTP-based protocol for modifiying the RDF data about assets</p>
 </li>
 <li>
-<p><strong>SPARQL interface</strong> for queries against RDF and time series data</p>
+<p><a href="timeseries/api.html" class="xref page"><strong>API</strong></a> for storing and retrieving time series data</p>
+</li>
+<li>
+<p><a href="https://www.w3.org/TR/sparql11-query/"><strong>SPARQL interface</strong></a> for complex queries against RDF and time series data</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="_rdf_graph_store"><a class="anchor" href="#_rdf_graph_store"></a>RDF graph store</h2>
+<h2 id="_graph_store"><a class="anchor" href="#_graph_store"></a>Graph store</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The endpoint <code>/models</code> provides an interface according to the <a href="https://www.w3.org/TR/sparql11-http-rdf-update/">SPARQL 1.1 Graph Store HTTP Protocol</a>.</p>
@@ -130,132 +133,6 @@
 The only difference is that the platform uses the parameter <code>model</code> instead of <code>graph</code> to specify the target named graph.
 </td>
 </tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_apis_for_time_series_data"><a class="anchor" href="#_apis_for_time_series_data"></a>APIs for time series data</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The main entry point for working with time series data is <code>/linkedfactory/values</code>.</p>
-</div>
-<div class="sect2">
-<h3 id="_json_encoded_time_series_data"><a class="anchor" href="#_json_encoded_time_series_data"></a>JSON-encoded time series data</h3>
-<div class="paragraph">
-<p>LinkedFactory uses a nested JSON-LD compatible format for time series data. The following document shows an example for the two resources <strong>resource1</strong> and <strong>resource2</strong>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "http://example.org/resource1": {
-       "http://example.org/properties/p1": [
-           { "value": 20.3, "time": 1619424246100 },
-           { "value": 20.4, "time": 1619424246120 }
-       ],
-       "http://example.org/properties/p2": [
-           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
-       ]
-    },
-    "http://example.org/resource2": {
-       "http://example.org/properties/speed": [
-           { "value": 120.3, "time": 1619424246100 }
-       ]
-    },
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As can be seen the principal structure of such a JSON document is <code>{ "Subject" : { "Property" : [&#8230;&#8203; values &#8230;&#8203; ], "Property 2": [&#8230;&#8203; values &#8230;&#8203;], &#8230;&#8203; }}</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_insert_new_data"><a class="anchor" href="#_insert_new_data"></a>Insert new data</h3>
-<div class="paragraph">
-<p>Data can be ingested by using <strong>POST</strong> requests with content-type <code>application/json</code> to the endpoint <code>/linkedfactory/values</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_query_data"><a class="anchor" href="#_query_data"></a>Query data</h3>
-<div class="paragraph">
-<p>Data can be queried by issueing a <strong>GET</strong> request to the endpoint <code>/linkedfactory/values</code> with the required parameter <code>item</code> which specifies the subject of time series data.</p>
-</div>
-<div class="paragraph">
-<p>An example would be <strong>GET</strong> <code>/linkedfactory/values?item=http://example.org/resource1</code> that returns a JSON document like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "http://example.org/resource1": {
-       "http://example.org/properties/p1": [
-           { "value": 20.4, "time": 1619424246120 },
-           { "value": 20.3, "time": 1619424246100 }
-       ],
-       "http://example.org/properties/p2": [
-           { "value": { "msg" : "Error 1", "nr" : 1 }, "time": 1619424246100 }
-       ]
-    }
-}</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The returned data is <strong>sorted descending by time</strong>. That means a GET request with <strong>limit=1</strong> always returns the latest value.
-</td>
-</tr>
-</table>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Parameters for a GET request</caption>
-<colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 57.1428%;">
-<col style="width: 28.5715%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>item</strong> (required)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The subject of the time series data.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/resource1" class="bare">http://example.org/resource1</a></code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>limit</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of values for each property.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>to</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The last timestap in milliseconds (inclusive)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1619424246120</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>from</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The first timestap in milliseconds (inclusive)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1619424246100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>op</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Aggregation operator for the data values. One of: min, max, avg, sum</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">avg</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>interval</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Used in conjunction with <strong>op</strong> and specifies the grouping interval for the aggregation operation.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
-</tr>
-</tbody>
 </table>
 </div>
 </div>
