@@ -1,16 +1,25 @@
 = APIs for time series data
 
-The main entry point for working with time series data is `/linkedfactory/values`.
+Each LinkedFactory instance provides a set of REST-APIs for working with items and associated time series data.
 
-== Insert data
+<<values-endpoint,values>>:: Endpoint for ingesting and querying of time series data.
+<<properties-endpoint,properties>>:: Endpoint for reading the known properties of a single item.
+<<descendants-endpoint,descendants>>:: Endpoint for reading the descendants of a single item
 
-Data can be ingested by using *POST* requests with content-type `application/json` to the endpoint `/linkedfactory/values`.
+[#values-endpoint]
+== The `values` endpoint
 
-== Query data
+This is the main entry point for working with time series data.
+
+=== Insert data
+
+Data can be ingested by using *POST* requests with content-type `application/json` to the endpoint `values`.
+
+=== Query data
 
 Data can be queried by issueing a *GET* request to the endpoint `/linkedfactory/values` with the required parameter `item` which specifies the subject of time series data.
 
-An example would be *GET* `/linkedfactory/values?item=http://example.org/resource1` that returns a JSON document like:
+An example would be *GET* `values?item=http://example.org/resource1` that returns a JSON document like:
 
 [source,json]
 ----
@@ -36,7 +45,13 @@ NOTE: The returned data is *sorted descending by time*. That means a GET request
 
 | *item* (required) | The subject of the time series data. | `http://example.org/resource1`
 
-| *limit* | Number of values for each property. | 5
+| *items* | Alternative for *item* if data of multiple items should be returned. This is a *space separated* list. | `http://example.org/resource1 http://example.org/resource2`
+
+| *property* | A certain property whose values should be returned. | `http://example.org/property1`
+
+| *items* | Alternative for *property* if data for multiple properties should be returned. This is a *space separated* list. | `http://example.org/property1 http://example.org/property2`
+
+| *limit* | Maximum number of values for each property. | 5
 
 | *to* | The last timestap in milliseconds (inclusive) | 1619424246120
 
@@ -46,3 +61,57 @@ NOTE: The returned data is *sorted descending by time*. That means a GET request
 
 | *interval* | Used in conjunction with *op* and specifies the grouping interval for the aggregation operation. | 1000
 |===
+
+[#properties-endpoint]
+== The `properties` endpoint
+
+This endpoint allows to query the known properties of an item.
+
+.Parameters for a GET request
+[cols="1,4,2"]
+|===
+|Parameter | Description | Example 
+
+| *item* (required) | The item for which the properties should be returned. | `http://example.org/resource1`
+
+|===
+
+An example would be *GET* `properties?item=http://example.org/resource1` that returns a JSON document like:
+
+[source,json]
+----
+[{
+    "@id": "http://example.org/properties/p1"
+}, {
+    "@id": "http://example.org/properties/p1"
+}]
+----
+
+[#descendants-endpoint]
+== The `**` endpoint
+
+This endpoint returns the known *descendants* of an item. It can be used as an entry point to traverse the items of a LinkedFactory instance.
+
+What is considered a descendant of another item is specific to the data model of an instance. The hierarchy may be established by the URLs path structure, where `resource1/component1` is a descendant of `resource1`, or via other means like OPC UA defined relationships. 
+
+.Parameters for a GET request
+[cols="1,4,2"]
+|===
+|Parameter | Description | Example 
+
+| *item* (required) | The item for which the descendants should be returned. | `http://example.org/resource1`
+
+|===
+
+An example would be *GET* `**?item=http://example.org/resource1` that returns a JSON document like:
+
+[source,json]
+----
+[{
+    "@id": "http://example.org/resource1/component1"
+}, {
+    "@id": "http://example.org/resource1/component2"
+}, {
+    "@id": "http://example.org/resource1/component2/sub-component1"
+}]
+----

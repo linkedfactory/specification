@@ -1,48 +1,74 @@
 openapi: 3.0.1
 info:
   title: LinkedFactory
-  description: 'The Linked Factory is a tool to store and retrieve time-series data from a semantic context'
+  description: LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.
   version: 0.0.1
 servers:
   - url: https://linkedfactory.github.io/
 tags:
   - name: end user
 paths: 
-  /linkedfactory/values:
+  /values:
     get:
       tags: 
         - end user
-      summary: Interact with resources from database
+      summary: Query time series data for certain items
       parameters:
         - in: query
           name: item
           schema:
             type: string
-          description: Resource that shall be retrieved
+          description: The subject of the time series data.
           required: true
+          example: http://example.org/resource1
+        - in: query
+          name: items
+          schema:
+            type: string
+          description: Alternative for item if data of multiple items should be returned.
+          example: http://example.org/resource1 http://example.org/resource2
+        - in: query
+          name: property
+          schema:
+            type: string
+          description: A certain property whose values should be returned.
+          example: http://example.org/property1
+        - in: query
+          name: properties
+          schema:
+            type: string
+          description: Alternative for property if data of multiple properties should be returned.
+          example: http://example.org/property1 http://example.org/property2
         - in: query
           name: limit
           schema:
             type: integer
-          description: Limits number of returned data points
+          description: Limit for the number of returned data points per property.
         - in: query
           name: from
           schema:
             type: integer
-          description: unix-timestamp (ms) for start of query window
+          description: Unix timestamp (ms) for start of query window
         - in: query
           name: to
           schema:
             type: integer
-          description: unix-timestamp (ms) for end of query window
+          description: Unix timestamp (ms) for end of query window
         - in: query
           name: op
           schema:
             type: string
+            enum:
+              - min
+              - max
+              - avg
+              - sum
+          description: Aggregation operator for values within a certain interval.
         - in: query
           name: interval
           schema:
             type: integer
+          description: Interval in which the aggregation operator op summarizes the values.
       operationId: getValues
       responses: 
         '200':
@@ -51,29 +77,21 @@ paths:
             application/json:
               schema:
                 type: object
-                example: {
-    "http://153.96.234.143/linkedfactory/evolopro/IR6640-Robot/Axes/A2/ParameterSet/ActualPosition": {
-        "value": [
-            {
-                "time": 1600764274637,
-                "value": 74.9
-            },
-            {
-                "time": 1600764274135,
-                "value": 77.4
-            },
-            {
-                "time": 1600764273607,
-                "value": 80.9
-            },
-            {
-                "time": 1600764273089,
-                "value": 81.3
-            }        ]    }}
+                example:
+                  http://example.org/linkedfactory/evolopro/IR6640-Robot/Axes/A2/ParameterSet/ActualPosition:
+                    value:
+                    - time: 1600764274637
+                      value: 74.9
+                    - time: 1600764274135
+                      value: 77.4
+                    - time: 1600764273607
+                      value: 80.9
+                    - time: 1600764273089
+                      value: 81.3
     post:
       tags: 
         - end user
-      summary: Inserts data into LinkedFactory
+      summary: Ingest time series data
       parameters:
         - in: query
           name: model
@@ -82,15 +100,16 @@ paths:
             type: string
 
       requestBody:
-        description: Payload
+        description: The data in LF JSON format.
         content:
           application/json:
             schema:
-              type: string
+              type: object
               example: 
-                {
-    "evolopro/umati/BasicRobot/ParameterSet/SpeedOverride":
-    {"value":[{"value":0.0,"time":1614259546690}]}}
+                evolopro/umati/BasicRobot/ParameterSet/SpeedOverride:
+                  value:
+                  - value: 1.7
+                    time: 1614259546690
           application/influxdb-line:
             schema:
               type: string
@@ -98,27 +117,21 @@ paths:
       responses:
         '200':
             description: OK
-            content:
-              application/json:
-                schema:
-                  type: object
-  
-  /sparql:
+
+  /properties:
     get:
       tags:
         - end user
-      summary: executes sparql query
+      summary: Query the known properties of an item.
       parameters:
         - in: query
-          name: model
-          description: Model within the LF that shall be queried
-          required: true
-        - in: query
-          name: query
+          name: item
           schema:
             type: string
-          description: Encoded sparql-query
+          description: The item for which the properties should be returned.
           required: true
+          example: http://example.org/resource1
+
       responses:
         '200':
           description: OK
@@ -126,20 +139,28 @@ paths:
             application/json:
               schema:
                 type: object
-      
-  /properties:
+                example:
+                  - "@id": http://example.org/properties/p1
+                  - "@id": http://example.org/properties/p2
+
+  /sparql:
     get:
       tags:
         - end user
-      summary: returns what is in the RDF-Graph
+      summary: Execute a SPARQL query.
       parameters:
         - in: query
-          name: item
+          name: model
           schema:
             type: string
-          description: Property that shall be evaluated
+          description: Model (named graph) within the LF instance that shall be queried.
           required: true
-
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: The SPARQL query.
+          required: true
       responses:
         '200':
           description: OK
@@ -196,7 +217,7 @@ paths:
           content:
             application/x-turtle:
               schema:
-                type: text/plain
+                type: string
                 example: 
                   - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#comment> "dengednden"@en .
                   - <http://localhost:10080/linkedfactory/demofactory/machine1/sensor1> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://localhost:10080/linkedfactory/demofactory/machine1> .
