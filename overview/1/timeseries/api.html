@@ -115,26 +115,45 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The main entry point for working with time series data is <code>/linkedfactory/values</code>.</p>
+<p>Each LinkedFactory instance provides a set of REST-APIs for working with items and associated time series data.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="#values-endpoint">values</a></dt>
+<dd>
+<p>Endpoint for ingesting and querying of time series data.</p>
+</dd>
+<dt class="hdlist1"><a href="#properties-endpoint">properties</a></dt>
+<dd>
+<p>Endpoint for reading the known properties of a single item.</p>
+</dd>
+<dt class="hdlist1"><a href="#descendants-endpoint">descendants</a></dt>
+<dd>
+<p>Endpoint for reading the descendants of a single item</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_insert_data"><a class="anchor" href="#_insert_data"></a>Insert data</h2>
+<h2 id="values-endpoint"><a class="anchor" href="#values-endpoint"></a>The <code>values</code> endpoint</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Data can be ingested by using <strong>POST</strong> requests with content-type <code>application/json</code> to the endpoint <code>/linkedfactory/values</code>.</p>
+<p>This is the main entry point for working with time series data.</p>
+</div>
+<div class="sect2">
+<h3 id="_insert_data"><a class="anchor" href="#_insert_data"></a>Insert data</h3>
+<div class="paragraph">
+<p>Data can be ingested by using <strong>POST</strong> requests with content-type <code>application/json</code> to the endpoint <code>values</code>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_query_data"><a class="anchor" href="#_query_data"></a>Query data</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_query_data"><a class="anchor" href="#_query_data"></a>Query data</h3>
 <div class="paragraph">
 <p>Data can be queried by issueing a <strong>GET</strong> request to the endpoint <code>/linkedfactory/values</code> with the required parameter <code>item</code> which specifies the subject of time series data.</p>
 </div>
 <div class="paragraph">
-<p>An example would be <strong>GET</strong> <code>/linkedfactory/values?item=http://example.org/resource1</code> that returns a JSON document like:</p>
+<p>An example would be <strong>GET</strong> <code>values?item=http://example.org/resource1</code> that returns a JSON document like:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -184,8 +203,23 @@ The returned data is <strong>sorted descending by time</strong>. That means a GE
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/resource1" class="bare">http://example.org/resource1</a></code></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>items</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alternative for <strong>item</strong> if data of multiple items should be returned. This is a <strong>space separated</strong> list.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/resource1" class="bare">http://example.org/resource1</a> <a href="http://example.org/resource2" class="bare">http://example.org/resource2</a></code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A certain property whose values should be returned.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/property1" class="bare">http://example.org/property1</a></code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>items</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alternative for <strong>property</strong> if data for multiple properties should be returned. This is a <strong>space separated</strong> list.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/property1" class="bare">http://example.org/property1</a> <a href="http://example.org/property2" class="bare">http://example.org/property2</a></code></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>limit</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of values for each property.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of values for each property.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 </tr>
 <tr>
@@ -210,6 +244,96 @@ The returned data is <strong>sorted descending by time</strong>. That means a GE
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="properties-endpoint"><a class="anchor" href="#properties-endpoint"></a>The <code>properties</code> endpoint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This endpoint allows to query the known properties of an item.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Parameters for a GET request</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 57.1428%;">
+<col style="width: 28.5715%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>item</strong> (required)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The item for which the properties should be returned.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/resource1" class="bare">http://example.org/resource1</a></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>An example would be <strong>GET</strong> <code>properties?item=http://example.org/resource1</code> that returns a JSON document like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[{
+    "@id": "http://example.org/properties/p1"
+}, {
+    "@id": "http://example.org/properties/p1"
+}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="descendants-endpoint"><a class="anchor" href="#descendants-endpoint"></a>The <code>**</code> endpoint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This endpoint returns the known <strong>descendants</strong> of an item. It can be used as an entry point to traverse the items of a LinkedFactory instance.</p>
+</div>
+<div class="paragraph">
+<p>What is considered a descendant of another item is specific to the data model of an instance. The hierarchy may be established by the URLs path structure, where <code>resource1/component1</code> is a descendant of <code>resource1</code>, or via other means like OPC UA defined relationships.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Parameters for a GET request</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 57.1428%;">
+<col style="width: 28.5715%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>item</strong> (required)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The item for which the descendants should be returned.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://example.org/resource1" class="bare">http://example.org/resource1</a></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>An example would be <strong>GET</strong> <code>**?item=http://example.org/resource1</code> that returns a JSON document like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[{
+    "@id": "http://example.org/resource1/component1"
+}, {
+    "@id": "http://example.org/resource1/component2"
+}, {
+    "@id": "http://example.org/resource1/component2/sub-component1"
+}]</code></pre>
+</div>
+</div>
 </div>
 </div>
 </article>
