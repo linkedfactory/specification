@@ -49,7 +49,7 @@ NOTE: The returned data is *sorted descending by time*. That means a GET request
 
 | *property* | A certain property whose values should be returned. | `http://example.org/property1`
 
-| *items* | Alternative for *property* if data for multiple properties should be returned. This is a *space separated* list. | `http://example.org/property1 http://example.org/property2`
+| *properties* | Alternative for *property* if data for multiple properties should be returned. This is a *space separated* list. | `http://example.org/property1 http://example.org/property2`
 
 | *limit* | Maximum number of values for each property. | 5
 
@@ -59,7 +59,7 @@ NOTE: The returned data is *sorted descending by time*. That means a GET request
 
 | *op* | Aggregation operator for the data values. One of: min, max, avg, sum | avg
 
-| *interval* | Used in conjunction with *op* and specifies the grouping interval for the aggregation operation. | 1000
+| *interval* | Used in conjunction with *op* and specifies the grouping interval for the aggregation operation in milliseconds. | 1000
 |===
 
 [#properties-endpoint]
