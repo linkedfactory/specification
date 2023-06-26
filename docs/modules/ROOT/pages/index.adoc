@@ -38,6 +38,6 @@ select ?property ?value ?time {
 } order by ?time
 ----
 
-== Grafana connector
+== Grafana Datasource
 
-TBD
+A Grafana Datasource for the LinkedFactory API is available at https://github.com/linkedfactory/linkedfactory-grafana-ds
