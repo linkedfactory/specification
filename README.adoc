@@ -1,7 +1,14 @@
-= LinkedFactory: Industrial Knowledge Graph
+= LinkedFactory: Industrial Digital Twins
 
-LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.
+LinkedFactory defines *APIs* and a *JSON-based data format* for managing time series data about assets to create connected digital representations of technical systems.
 
-https://linkedfactory.github.io/specification/[Concepts and data formats]
+The core components can be augmented with *RDF-based descriptions* for
+representing *metadata* like the structure, components or attributes of
+assets as well as other provenance information of time series data.
+In this context *SPARQL* can be used to execute queries against time series data and the related metadata.
 
-https://linkedfactory.github.io/specification/api/[REST-API]
+https://linkedfactory.github.io/specification/[Concepts overview]
+
+https://linkedfactory.github.io/specification/overview/1/timeseries/json[JSON format]
+
+https://linkedfactory.github.io/specification/overview/1/timeseries/api[API]
