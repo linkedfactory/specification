@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://linkedfactory.github.io/specifiction/overview/1/index.html</loc>
-<lastmod>2023-07-14T12:16:52.974Z</lastmod>
+<loc>https://linkedfactory.github.io/specification/overview/1/index.html</loc>
+<lastmod>2023-07-14T12:25:20.637Z</lastmod>
 </url>
 <url>
-<loc>https://linkedfactory.github.io/specifiction/overview/1/timeseries/api.html</loc>
-<lastmod>2023-07-14T12:16:52.974Z</lastmod>
+<loc>https://linkedfactory.github.io/specification/overview/1/timeseries/api.html</loc>
+<lastmod>2023-07-14T12:25:20.637Z</lastmod>
 </url>
 <url>
-<loc>https://linkedfactory.github.io/specifiction/overview/1/timeseries/json.html</loc>
-<lastmod>2023-07-14T12:16:52.974Z</lastmod>
+<loc>https://linkedfactory.github.io/specification/overview/1/timeseries/json.html</loc>
+<lastmod>2023-07-14T12:25:20.637Z</lastmod>
 </url>
 </urlset>
