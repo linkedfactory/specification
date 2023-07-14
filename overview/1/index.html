@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>LinkedFactory: Industrial Knowledge Graph :: LinkedFactory specifications</title>
+    <title>LinkedFactory: Industrial Digital Twins :: LinkedFactory specifications</title>
     <meta name="generator" content="Antora 3.0.1">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script>var uiRootPath = '../../_'</script>
@@ -58,7 +58,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="index.html">LinkedFactory: Industrial Knowledge Graph</a>
+    <a class="nav-link" href="index.html">LinkedFactory: Industrial Digital Twins</a>
   </li>
 </ul>
   </li>
@@ -101,7 +101,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Overview</a></li>
-    <li><a href="index.html">LinkedFactory: Industrial Knowledge Graph</a></li>
+    <li><a href="index.html">LinkedFactory: Industrial Digital Twins</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/linkedfactory/specification/edit/master/docs/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
@@ -111,12 +111,18 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">LinkedFactory: Industrial Knowledge Graph</h1>
+<h1 class="page">LinkedFactory: Industrial Digital Twins</h1>
 <div class="sect1">
 <h2 id="_what_is_linkedfactory"><a class="anchor" href="#_what_is_linkedfactory"></a>What is LinkedFactory?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.</p>
+<p>LinkedFactory defines <strong>APIs</strong> and a <strong>JSON-based data format</strong> for managing time series data about assets to create connected digital representations of technical systems.</p>
+</div>
+<div class="paragraph">
+<p>The core components can be augmented with <strong>RDF-based descriptions</strong> for
+representing <strong>metadata</strong> like the structure, components or attributes of
+assets as well as other provenance information of time series data.
+In this context <strong>SPARQL</strong> can be used to execute queries against time series data and the related metadata.</p>
 </div>
 </div>
 </div>
@@ -126,17 +132,30 @@
 <div class="paragraph">
 <p>LinkedFactory is based on the following standards and components:</p>
 </div>
+<div class="paragraph">
+<p><strong>Core components:</strong></p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://www.w3.org/TR/rdf11-concepts/"><strong>RDF</strong></a> is used as a flexible format to describe any kind of asset with associated properties and relationships
+<p><a href="timeseries/api.html" class="xref page"><strong>API</strong></a> for storing and retrieving time series data</p>
+</li>
+<li>
+<p>flexible <a href="timeseries/json.html" class="xref page"><strong>JSON-based format</strong></a> for exchanging data</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Optional components for metadata:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.w3.org/TR/rdf11-concepts/"><strong>RDF</strong></a> for metadata of assets with associated properties and relationships
 to other assets.</p>
 </li>
 <li>
-<p><a href="http://www.w3.org/TR/sparql11-http-rdf-update/"><strong>Graph Store HTTP Protocol</strong></a> is a simple HTTP-based protocol for modifiying the RDF data about assets</p>
-</li>
-<li>
-<p><a href="timeseries/api.html" class="xref page"><strong>API</strong></a> for storing and retrieving time series data</p>
+<p><a href="http://www.w3.org/TR/sparql11-http-rdf-update/"><strong>Graph Store HTTP Protocol</strong></a> as simple HTTP-based protocol for modifiying the RDF data about assets</p>
 </li>
 <li>
 <p><a href="https://www.w3.org/TR/sparql11-query/"><strong>SPARQL interface</strong></a> for complex queries against RDF and time series data</p>

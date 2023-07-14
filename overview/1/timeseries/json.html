@@ -58,7 +58,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">LinkedFactory: Industrial Knowledge Graph</a>
+    <a class="nav-link" href="../index.html">LinkedFactory: Industrial Digital Twins</a>
   </li>
 </ul>
   </li>
@@ -113,7 +113,7 @@
 <article class="doc">
 <h1 class="page">JSON-encoding for time series data</h1>
 <div class="paragraph">
-<p>LinkedFactory uses a nested JSON-LD compatible format for time series data. The following document shows an example for the two resources <strong>resource1</strong> and <strong>resource2</strong>:</p>
+<p>LinkedFactory uses a JSON-based format for time series data. The following document shows an example for the two resources <strong>resource1</strong> and <strong>resource2</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -136,8 +136,150 @@
 </div>
 </div>
 <div class="paragraph">
-<p>As can be seen the principal structure of such a JSON document is <code>{ "Subject" : { "Property" : [&#8230;&#8203; values &#8230;&#8203; ], "Property 2": [&#8230;&#8203; values &#8230;&#8203;], &#8230;&#8203; }}</code>.</p>
+<p>The principal structure of such a JSON document is:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Item 1</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Property 1: [&#8230;&#8203; values &#8230;&#8203;]</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+<li>
+<p>Property n: [&#8230;&#8203; values &#8230;&#8203;]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+<li>
+<p>Item n</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Property 1: [&#8230;&#8203; values &#8230;&#8203;]</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+<li>
+<p>Property n: [&#8230;&#8203; values &#8230;&#8203;]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This structure is represented within the JSON format as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>`{ "Item-1" : { "Property-1" : [... values ... ], "Property-2": [... values ...], ... }}`.</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Supported value types</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 57.1428%;">
+<col style="width: 28.5715%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>number</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer and floating point numbers as supported by JSON. The precision of numbers may be restricted to 64 bit by implementors to improve storage efficiency.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>3</code></p>
+</li>
+<li>
+<p><code>3.78</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>string</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Character strings of arbitrary length.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>"This is a string."</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>boolean</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The boolean values <code>true</code> and <code>false</code>.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>true</code></p>
+</li>
+<li>
+<p><code>false</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>array</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Possibly nested array to represent lists, vectors or matrices.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>[5, 3.7]</code></p>
+</li>
+<li>
+<p><code>[["a", 5.3, true], ["b", 5.7, false]]</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>record</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Possibly nested key-value pairs to represent complex data objects.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>{"message": "Error 439: Component was unable to start.", "nr": 439}</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URI</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON-LD-based URIs to create links to other assets.</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>{ "@id": "https://example.org/assets/machine1"}</code></p>
+</li>
+<li>
+<p><code>{"rawMaterial": { "@id": "https://example.org/material/coil3"}, "thickness": 12}</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </article>
   </div>
 </main>
