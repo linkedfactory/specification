@@ -1,6 +1,6 @@
 = JSON-encoding for time series data
 
-LinkedFactory uses a nested JSON-LD compatible format for time series data. The following document shows an example for the two resources *resource1* and *resource2*:
+LinkedFactory uses a JSON-based format for time series data. The following document shows an example for the two resources *resource1* and *resource2*:
 
 [source,json]
 ----
@@ -22,4 +22,47 @@ LinkedFactory uses a nested JSON-LD compatible format for time series data. The 
 }
 ----
 
-As can be seen the principal structure of such a JSON document is `{ "Subject" : { "Property" : [... values ... ], "Property 2": [... values ...], ... }}`.
+The principal structure of such a JSON document is:
+
+* Item 1
+** Property 1: [... values ...]
+** ...
+** Property n: [... values ...]
+* ...
+* Item n
+** Property 1: [... values ...]
+** ...
+** Property n: [... values ...]
+
+This structure is represented within the JSON format as follows:
+
+ `{ "Item-1" : { "Property-1" : [... values ... ], "Property-2": [... values ...], ... }}`.
+
+.Supported value types
+[cols="1,4,2"]
+|===
+|Type | Description | Examples
+
+| *number* | Integer and floating point numbers as supported by JSON. The precision of numbers may be restricted to 64 bit by implementors to improve storage efficiency. a| 
+* `3`
+* `3.78`
+
+| *string* | Character strings of arbitrary length. a| 
+* `"This is a string."`
+
+| *boolean* | The boolean values `true` and `false`. a| 
+* `true`
+* `false`
+
+| *array* | Possibly nested array to represent lists, vectors or matrices. a| 
+* `[5, 3.7]`
+* `[["a", 5.3, true], ["b", 5.7, false]]`
+
+| *record* | Possibly nested key-value pairs to represent complex data objects. a| 
+* `{"message": "Error 439: Component was unable to start.", "nr": 439}`
+
+| *URI* | JSON-LD-based URIs to create links to other assets. a| 
+* `{ "@id": "https://example.org/assets/machine1"}`
+* `{"rawMaterial": { "@id": "https://example.org/material/coil3"}, "thickness": 12}`
+
+|===

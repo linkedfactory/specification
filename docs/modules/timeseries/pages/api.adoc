@@ -95,7 +95,8 @@ What is considered a descendant of another item is specific to the data model of
 |===
 |Parameter | Description | Example 
 
-| *item* (required) | The item for which the descendants should be returned. | `http://example.org/resource1`
+| *item* | The item for which the descendants should be returned. | `http://example.org/resource1`. If `item` is not specified then all
+items are returned.
 
 |===
 

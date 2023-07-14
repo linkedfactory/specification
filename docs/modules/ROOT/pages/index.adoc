@@ -1,17 +1,28 @@
-= LinkedFactory: Industrial Knowledge Graph
+= LinkedFactory: Industrial Digital Twins
 
 == What is LinkedFactory?
 
-LinkedFactory is a set of APIs for combining RDF and time series data to create digital representations of technical systems.
+LinkedFactory defines *APIs* and a *JSON-based data format* for managing time series data about assets to create connected digital representations of technical systems.
+
+The core components can be augmented with *RDF-based descriptions* for
+representing *metadata* like the structure, components or attributes of
+assets as well as other provenance information of time series data.
+In this context *SPARQL* can be used to execute queries against time series data and the related metadata.
 
 == Components
 
 LinkedFactory is based on the following standards and components:
 
-* https://www.w3.org/TR/rdf11-concepts/[*RDF*] is used as a flexible format to describe any kind of asset with associated properties and relationships
-  to other assets.
-* http://www.w3.org/TR/sparql11-http-rdf-update/[*Graph Store HTTP Protocol*] is a simple HTTP-based protocol for modifiying the RDF data about assets
+*Core components:*
+
 * xref:timeseries:api.adoc[*API*] for storing and retrieving time series data
+* flexible xref:timeseries:json.adoc[*JSON-based format*] for exchanging data
+
+*Optional components for metadata:*
+
+* https://www.w3.org/TR/rdf11-concepts/[*RDF*] for metadata of assets with associated properties and relationships
+  to other assets.
+* http://www.w3.org/TR/sparql11-http-rdf-update/[*Graph Store HTTP Protocol*] as simple HTTP-based protocol for modifiying the RDF data about assets
 * https://www.w3.org/TR/sparql11-query/[*SPARQL interface*] for complex queries against RDF and time series data
 
 == Graph store
